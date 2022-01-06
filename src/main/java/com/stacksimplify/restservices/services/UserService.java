@@ -1,9 +1,13 @@
 package com.stacksimplify.restservices.services;
 
 import com.stacksimplify.restservices.entities.User;
+import com.stacksimplify.restservices.exceptions.UserExistsException;
+import com.stacksimplify.restservices.exceptions.UserNotFoundException;
 import com.stacksimplify.restservices.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,23 +22,39 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public Optional<User> getUserById(Long id){
-        return userRepository.findById(id);
+    public Optional<User> getUserById(Long id) throws UserNotFoundException {
+        Optional<User> user = userRepository.findById(id);
+        if(!user.isPresent()){
+            throw new UserNotFoundException(String.format("Not found user with id- %d",id));
+        }
+        return user;
+
     }
 
-    public User createUser(User user){
+    public User createUser(User user) throws UserExistsException {
+        User existingUser = userRepository.findByUserName(user.getUserName());
+        if(existingUser != null){
+            throw new UserExistsException("User already exists in repository");
+        }
         return userRepository.save(user);
     }
 
-    public User updateUserById(Long id, User user){
+    public User updateUserById(Long id, User user) throws UserNotFoundException {
+        Optional<User> optionalUser = userRepository.findById(id);
+        if(!optionalUser.isPresent()){
+            throw new UserNotFoundException(String.format("Not found user with id- %d! Provide the correct Id for update.",id));
+        }
         user.setId(id);
         return userRepository.save(user);
     }
 
+
     public void deleteUserById(Long id){
-        if(userRepository.findById(id).isPresent()){
-            userRepository.deleteById(id);
+        Optional<User> optionalUser = userRepository.findById(id);
+        if(!optionalUser.isPresent()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,String.format("Not found user with id- %d! Provide the correct Id.",id));
         }
+        userRepository.deleteById(id);
     }
 
     public User getUserByUsername(String userName){
