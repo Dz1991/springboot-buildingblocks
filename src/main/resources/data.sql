@@ -1,0 +1,3 @@
+INSERT INTO USER (ID,EMAIL_ADDRESS,FIRST_NAME,LAST_NAME,ROLE,SSN,USER_NAME) VALUES(101, 'kreddy@stacksimplify.com', 'Kalyan', 'Reddy', 'admin', 'ssn101', 'kreddy');
+INSERT INTO USER (ID,EMAIL_ADDRESS,FIRST_NAME,LAST_NAME,ROLE,SSN,USER_NAME) VALUES(102, 'gwiser@stacksimplify.com', 'Greg', 'Wiser', 'admin', 'ssn102', 'gwiser');
+INSERT INTO USER (ID,EMAIL_ADDRESS,FIRST_NAME,LAST_NAME,ROLE,SSN,USER_NAME) VALUES(103, 'dmark@stacksimplify.com', 'David', 'Mark', 'admin', 'ssn103', 'dmark');
