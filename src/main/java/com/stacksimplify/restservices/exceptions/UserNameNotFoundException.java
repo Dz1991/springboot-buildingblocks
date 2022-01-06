@@ -1,9 +1,9 @@
 package com.stacksimplify.restservices.exceptions;
 
-public class UserExistsException extends Exception{
+public class UserNameNotFoundException extends Exception{
     private static final Long serialVersionUid = 1L;
 
-    public UserExistsException(String message) {
+    public UserNameNotFoundException(String message) {
         super(message);
     }
 }
