@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Entity
 @Table(name = "user")
@@ -38,4 +39,7 @@ public class User {
 
     @Column(name = "SSN", length = 50, nullable = false, unique = true)
     private String ssn;
+
+    @OneToMany(mappedBy = "user")
+    private List<Order> orders;
 }
